@@ -1,6 +1,6 @@
 package montalvo.planclock.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Customer {
@@ -25,7 +25,7 @@ public class Customer {
         this.createdBy = createdBy;
         this.lastUpdated = lastUpdated;
         this.lastUpdateBy = lastUpdateBy;
-        DivisionID = divisionID;
+        this.DivisionID = divisionID;
     }
 
     public int getCustomerID() {

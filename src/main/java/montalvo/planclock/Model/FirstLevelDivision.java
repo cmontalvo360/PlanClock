@@ -1,23 +1,23 @@
 package montalvo.planclock.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class FirstLevelDivision {
     private int divisionID;
     private String division;
-    private LocalDateTime createdDate;
+    private LocalDateTime createDate;
     private String createdBy;
-    private Timestamp lastUpdated;
+    private Timestamp lastUpdate;
     private String lastUpdatedBy;
     private int countryID;
 
-    public FirstLevelDivision(int divisionID, String division, LocalDateTime createdDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int countryID) {
+    public FirstLevelDivision(int divisionID, String division, LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int countryID) {
         this.divisionID = divisionID;
         this.division = division;
-        this.createdDate = createdDate;
+        this.createDate = createDate;
         this.createdBy = createdBy;
-        this.lastUpdated = lastUpdated;
+        this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.countryID = countryID;
     }
@@ -39,11 +39,11 @@ public class FirstLevelDivision {
     }
 
     public LocalDateTime getCreatedDate() {
-        return createdDate;
+        return createDate;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+        this.createDate = createdDate;
     }
 
     public String getCreatedBy() {
@@ -55,11 +55,11 @@ public class FirstLevelDivision {
     }
 
     public Timestamp getLastUpdated() {
-        return lastUpdated;
+        return lastUpdate;
     }
 
     public void setLastUpdated(Timestamp lastUpdated) {
-        this.lastUpdated = lastUpdated;
+        this.lastUpdate = lastUpdated;
     }
 
     public String getLastUpdatedBy() {
@@ -76,5 +76,9 @@ public class FirstLevelDivision {
 
     public void setCountryID(int countryID) {
         this.countryID = countryID;
+    }
+
+    public String toString() {
+        return division;
     }
 }

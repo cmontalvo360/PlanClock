@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="montalvo.planclock.Controller.Appointments">
+    <children>
+        <TableView fx:id="appointmentsTable" layoutX="24.0" layoutY="181.0" prefHeight="347.0" prefWidth="1272.0">
+            <columns>
+                <TableColumn fx:id="appointmentIDCol" prefWidth="99.0" text="Appointment_ID" />
+                <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="119.0" text="Title" />
+                <TableColumn fx:id="descriptionCol" minWidth="0.0" prefWidth="193.0" text="Description" />
+                <TableColumn fx:id="locationCol" minWidth="0.0" prefWidth="165.0" text="Location" />
+                <TableColumn fx:id="contactCol" minWidth="0.0" prefWidth="128.0" text="Contact" />
+                <TableColumn fx:id="typeCol" minWidth="0.0" prefWidth="135.0" text="Type" />
+                <TableColumn fx:id="startDateCol" minWidth="0.0" prefWidth="143.0" text="Start Date/Time" />
+                <TableColumn fx:id="endDateCol" minWidth="0.0" prefWidth="152.0" text="End Date/Time" />
+                <TableColumn fx:id="customerIDCol" minWidth="0.0" prefWidth="76.0" text="Customer_ID" />
+                <TableColumn fx:id="userIDCol" minWidth="0.0" prefWidth="59.0" text="User_ID" />
+            </columns>
+        </TableView>
+        <Button layoutX="81.0" layoutY="554.0" mnemonicParsing="false" onAction="#addBtnClick" prefHeight="25.0" prefWidth="52.0" text="Add" />
+        <Button layoutX="150.0" layoutY="554.0" mnemonicParsing="false" onAction="#editAppointment" prefHeight="25.0" prefWidth="52.0" text="Edit" />
+        <Button layoutX="1199.0" layoutY="700.0" mnemonicParsing="false" onAction="#exitApp" prefHeight="25.0" prefWidth="52.0" text="Exit" />
+        <Button layoutX="215.0" layoutY="554.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="52.0" text="Delete" />
+        <Label fx:id="errorLabel" layoutX="370.0" layoutY="518.0" prefHeight="35.0" prefWidth="498.0" />
+      <Label layoutX="44.0" layoutY="14.0" prefHeight="17.0" prefWidth="134.0" text="PlanClock">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <Label fx:id="usernameLabel" layoutX="1171.0" layoutY="35.0" text="Username">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <RadioButton fx:id="appointmentRadio" layoutX="224.0" layoutY="121.0" mnemonicParsing="false" selected="true" text="Appointments">
+            <toggleGroup>
+                <ToggleGroup fx:id="viewToggleGrp" />
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="customerRadio" layoutX="383.0" layoutY="121.0" mnemonicParsing="false" onAction="#customerRadioClick" text="Customers" toggleGroup="$viewToggleGrp" />
+    </children>
+
+</AnchorPane>

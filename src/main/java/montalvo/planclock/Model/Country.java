@@ -1,20 +1,20 @@
 package montalvo.planclock.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Country {
     private int countryID;
     private String country;
-    private LocalDateTime createdDate;
+    private LocalDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
 
-    public Country(int countryID, String country, LocalDateTime createdDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Country(int countryID, String country, LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
         this.countryID = countryID;
         this.country = country;
-        this.createdDate = createdDate;
+        this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
@@ -36,12 +36,12 @@ public class Country {
         this.country = country;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
     }
 
     public String getCreatedBy() {
@@ -66,5 +66,9 @@ public class Country {
 
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public String toString() {
+        return country;
     }
 }

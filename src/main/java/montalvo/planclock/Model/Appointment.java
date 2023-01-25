@@ -1,6 +1,6 @@
 package montalvo.planclock.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Appointment {
