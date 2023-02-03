@@ -8,7 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class is a Data Access Object for Contact
+ */
 public class ContactDAO {
+    /**
+     * Gets all the Contacts from the database
+     * @return
+     */
     public static ObservableList<Contact> getAllContacts() {
         ObservableList<Contact> contactList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM contacts";

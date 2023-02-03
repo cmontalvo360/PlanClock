@@ -1,5 +1,9 @@
 package montalvo.planclock.DAO;
 import java.sql.*;
+
+/**
+ * This is an abstract class to connect to the database
+ */
 public abstract class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -11,6 +15,9 @@ public abstract class JDBC {
     private static String password = "passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * Opens a connection the database
+     */
     public static void openConnection()
     {
         try {
@@ -24,10 +31,17 @@ public abstract class JDBC {
         }
     }
 
+    /**
+     * Return the current connection
+     * @return
+     */
     public static Connection getConnection() {
         return connection;
     }
 
+    /**
+     * Closed the connection to the database
+     */
     public static void closeConnection() {
         try {
             connection.close();

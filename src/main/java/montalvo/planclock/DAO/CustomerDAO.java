@@ -10,7 +10,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class is a Data Access Object for Customer
+ */
 public class CustomerDAO {
+    /**
+     * Gets all customers from the database
+     * @return
+     */
     public static ObservableList<Customer> getAllCustomers() {
         ObservableList<Customer> customerList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM customers";
@@ -41,6 +48,10 @@ public class CustomerDAO {
         return customerList;
     }
 
+    /**
+     * Adds a customer to the database
+     * @param customer
+     */
     public static void addCustomer(Customer customer) {
         try{
             String sql = "INSERT INTO customers VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -53,7 +64,7 @@ public class CustomerDAO {
             ps.setTimestamp(5, Timestamp.valueOf(customer.getCreateDate()));
             ps.setString(6, customer.getCreatedBy());
             ps.setTimestamp(7, customer.getLastUpdated());
-            ps.setString(8, customer.getLastUpdateBy());
+            ps.setString(8, customer.getLastUpdatedBy());
             ps.setInt(9, customer.getDivisionID());
 
             ps.executeUpdate();
@@ -63,6 +74,11 @@ public class CustomerDAO {
 
     }
 
+    /**
+     * Updates customer based on id selected
+     * @param id
+     * @param customer
+     */
     public static void updateCustomer(int id, Customer customer) {
         try{
             String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
@@ -76,7 +92,7 @@ public class CustomerDAO {
             ps.setTimestamp(5, Timestamp.valueOf(customer.getCreateDate()));
             ps.setString(6, customer.getCreatedBy());
             ps.setTimestamp(7, customer.getLastUpdated());
-            ps.setString(8, customer.getLastUpdateBy());
+            ps.setString(8, customer.getLastUpdatedBy());
             ps.setInt(9, customer.getDivisionID());
             ps.setInt(10, id);
 
@@ -87,6 +103,10 @@ public class CustomerDAO {
 
     }
 
+    /**
+     * Deletes a customer based on id selected
+     * @param id
+     */
     public static void deleteCustomer(int id) {
         try{
             String sql = "DELETE FROM customers WHERE Customer_ID = ?";

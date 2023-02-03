@@ -11,7 +11,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class is a Data Access Object for Country
+ */
 public class CountryDAO {
+    /**
+     * Gets all countries from the database
+     * @return
+     */
     public static ObservableList<Country> getAllCountries() {
         ObservableList<Country> countryList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM countries";

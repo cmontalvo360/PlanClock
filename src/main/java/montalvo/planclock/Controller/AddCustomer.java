@@ -1,5 +1,7 @@
 package montalvo.planclock.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,8 +26,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller for the Add Customer Screen
+ */
 public class AddCustomer implements Initializable {
     private static User loggedUser = null;
+    private static ObservableList<Country> countries = FXCollections.observableArrayList();
+    private static ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList();
     public TextField nameField;
     public TextField addressField;
     public TextField postalCodeField;
@@ -34,15 +41,33 @@ public class AddCustomer implements Initializable {
     public ComboBox<Country> countryCombo;
     public Label errorLabel;
 
+    /**
+     * Gets logged-in user from the prior screen
+     * @param user
+     */
     public static void getLoggedUser(User user) {
         loggedUser = user;
     }
+
+    /**
+     * loads some inputs with data on initialize
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        divisionCombo.setItems(FirstLevelDivisionDAO.getAllDivisions());
-        countryCombo.setItems(CountryDAO.getAllCountries());
+        countries = CountryDAO.getAllCountries();
+        divisions = FirstLevelDivisionDAO.getAllDivisions();
+
+        divisionCombo.setItems(divisions);
+        countryCombo.setItems(countries);
     }
 
+    /**
+     * Creates a new Customer and sends you to Customers Screen if requirements are met
+     * @param actionEvent add button pressed
+     * @throws IOException
+     */
     public void addBtnClicked(ActionEvent actionEvent) throws IOException {
         int id = CustomerDAO.getAllCustomers().size() + 1;
         String name = nameField.getText();
@@ -53,7 +78,7 @@ public class AddCustomer implements Initializable {
         String createdBy = "joe";
         Timestamp lastUpdated = Timestamp.valueOf(createDate);
         String lastUpdatedBy = "joe";
-        int divisionID = divisionCombo.getSelectionModel().getSelectedIndex() +1;
+        int divisionID = divisionCombo.getSelectionModel().getSelectedItem().getDivisionID();
         String error = "Exception: ";
         boolean exceptions = false;
 
@@ -87,18 +112,32 @@ public class AddCustomer implements Initializable {
                 lastUpdatedBy, divisionID);
         CustomerDAO.addCustomer(customer);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/Dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/View/Customers.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 1300, 760);
         stage.setScene(scene);
         stage.show();
     }
 
+    /**
+     * Sends you back to the Customers Screen without saving
+     * @param actionEvent cancel button pressed
+     * @throws IOException
+     */
     public void cancelBtnClicked(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/Dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/View/Customers.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 1300, 760);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Filters the Division combo box when a country is chosen
+     * @param actionEvent
+     */
+    public void countryFilter(ActionEvent actionEvent) {
+        int countryIndex = countryCombo.getSelectionModel().getSelectedIndex() + 1;
+        divisionCombo.setItems(FirstLevelDivisionDAO.getAllDivisions().filtered(division -> division.getCountryID() == countryIndex));
     }
 }

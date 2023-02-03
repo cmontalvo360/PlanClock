@@ -10,7 +10,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class is the Data Access Object class
+ */
 public class AppointmentDAO {
+    /**
+     * Gets all appointments from the database
+     * @return
+     */
     public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> appList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments";
@@ -46,9 +53,13 @@ public class AppointmentDAO {
         return appList;
     }
 
+    /**
+     * Adds an appointment into the database
+     * @param appointment
+     */
     public static void addAppointment(Appointment appointment) {
         try{
-            String sql = "INSERT INTO appointments VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO appointments VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 
             ps.setString(1, appointment.getTitle());
@@ -56,14 +67,14 @@ public class AppointmentDAO {
             ps.setString(3, appointment.getLocation());
             ps.setString(4, appointment.getType());
             ps.setTimestamp(5, Timestamp.valueOf(appointment.getStart()));
-            ps.setTimestamp(5, Timestamp.valueOf(appointment.getEnd()));
-            ps.setTimestamp(5, Timestamp.valueOf(appointment.getCreateDate()));
-            ps.setString(6, appointment.getCreatedBy());
-            ps.setTimestamp(7, appointment.getLastUpdated());
-            ps.setString(8, appointment.getLastUpdatedBy());
-            ps.setInt(9, appointment.getCustomerID());
-            ps.setInt(9, appointment.getUserID());
-            ps.setInt(9, appointment.getContactID());
+            ps.setTimestamp(6, Timestamp.valueOf(appointment.getEnd()));
+            ps.setTimestamp(7, Timestamp.valueOf(appointment.getCreateDate()));
+            ps.setString(8, appointment.getCreatedBy());
+            ps.setTimestamp(9, appointment.getLastUpdated());
+            ps.setString(10, appointment.getLastUpdatedBy());
+            ps.setInt(11, appointment.getCustomerID());
+            ps.setInt(12, appointment.getUserID());
+            ps.setInt(13, appointment.getContactID());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -71,6 +82,11 @@ public class AppointmentDAO {
         }
     }
 
+    /**
+     * Updates an appointment based on id selected
+     * @param id
+     * @param appointment
+     */
     public static void updateAppointment(int id, Appointment appointment) {
         try{
             String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?," +
@@ -83,14 +99,15 @@ public class AppointmentDAO {
             ps.setString(3, appointment.getLocation());
             ps.setString(4, appointment.getType());
             ps.setTimestamp(5, Timestamp.valueOf(appointment.getStart()));
-            ps.setTimestamp(5, Timestamp.valueOf(appointment.getEnd()));
-            ps.setTimestamp(5, Timestamp.valueOf(appointment.getCreateDate()));
-            ps.setString(6, appointment.getCreatedBy());
-            ps.setTimestamp(7, appointment.getLastUpdated());
-            ps.setString(8, appointment.getLastUpdatedBy());
-            ps.setInt(9, appointment.getCustomerID());
-            ps.setInt(9, appointment.getUserID());
-            ps.setInt(9, appointment.getContactID());
+            ps.setTimestamp(6, Timestamp.valueOf(appointment.getEnd()));
+            ps.setTimestamp(7, Timestamp.valueOf(appointment.getCreateDate()));
+            ps.setString(8, appointment.getCreatedBy());
+            ps.setTimestamp(9, appointment.getLastUpdated());
+            ps.setString(10, appointment.getLastUpdatedBy());
+            ps.setInt(11, appointment.getCustomerID());
+            ps.setInt(12, appointment.getUserID());
+            ps.setInt(13, appointment.getContactID());
+            ps.setInt(14, id);
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -98,6 +115,10 @@ public class AppointmentDAO {
         }
     }
 
+    /**
+     * Deletes an appointment based on id selected
+     * @param id
+     */
     public static void deleteAppointment(int id) {
         try{
             String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";

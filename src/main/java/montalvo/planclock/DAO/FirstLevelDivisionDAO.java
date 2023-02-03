@@ -10,7 +10,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class is a Data Access Object for First Level Division
+ */
 public class FirstLevelDivisionDAO {
+    /**
+     * Gets all Divisions from the database
+     * @return
+     */
     public static ObservableList<FirstLevelDivision> getAllDivisions() {
         ObservableList<FirstLevelDivision> divisionList = FXCollections.observableArrayList();
         String sql = "SELECT * FROM first_level_divisions";

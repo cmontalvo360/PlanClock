@@ -5,10 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import montalvo.planclock.DAO.AppointmentDAO;
 import montalvo.planclock.DAO.ContactDAO;
@@ -16,15 +13,21 @@ import montalvo.planclock.DAO.CustomerDAO;
 import montalvo.planclock.DAO.UserDAO;
 import montalvo.planclock.Main;
 import montalvo.planclock.Model.Appointment;
+import montalvo.planclock.Model.Contact;
 import montalvo.planclock.Model.Customer;
 import montalvo.planclock.Model.User;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller for the Add Appointment Screen.
+ */
 public class AddAppointment implements Initializable {
     private static User loggedUser = null;
     public Label errorLabel;
@@ -34,36 +37,68 @@ public class AddAppointment implements Initializable {
     public TextField typeField;
     public DatePicker startDatePicker;
     public DatePicker endDatePicker;
-    public ComboBox contactCombo;
-    public ComboBox customerCombo;
-    public ComboBox userCombo;
+    public ComboBox<Contact> contactCombo;
+    public ComboBox<Customer> customerCombo;
+    public ComboBox<User> userCombo;
+    public Spinner startHourSpinner;
+    public Spinner endHourSpinner;
+    public Spinner startMinuteSpinner;
+    public Spinner endMinuteSpinner;
 
+    /**
+     * Gets the logged-in user info from other screen
+     * @param user
+     */
     public static void getLoggedUser(User user) {
         loggedUser = user;
     }
 
+    /**
+     * loads the input fields with data when initialized
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23);
+        SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59);
+        SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23);
+        SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59);
+
+        startHourSpinner.setValueFactory(startHourValueFactory);
+        startMinuteSpinner.setValueFactory(startMinuteValueFactory);
+        endHourSpinner.setValueFactory(endHourValueFactory);
+        endMinuteSpinner.setValueFactory(endMinuteValueFactory);
+
         contactCombo.setItems(ContactDAO.getAllContacts());
         customerCombo.setItems(CustomerDAO.getAllCustomers());
         userCombo.setItems(UserDAO.getAllUsers());
     }
 
+    /**
+     * Creates a new Appointment and sends you back to Appointment Screen is requirements are met
+     * @param actionEvent add button pressed
+     * @throws IOException
+     */
     public void addBtnClicked(ActionEvent actionEvent) throws IOException {
         int id = AppointmentDAO.getAllAppointments().size() + 1;
         String title = titleField.getText();
         String description = descriptionField.getText();
         String location = locationField.getText();
         String type = typeField.getText();
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end = LocalDateTime.now();
+        LocalDate ldStart = startDatePicker.getValue();
+        LocalTime ltStart = LocalTime.of((int)startHourSpinner.getValue(), (int)startMinuteSpinner.getValue());
+        LocalDateTime start = LocalDateTime.of(ldStart, ltStart);
+        LocalDate ldEnd = endDatePicker.getValue();
+        LocalTime ltEnd = LocalTime.of((int)endHourSpinner.getValue(), (int)endMinuteSpinner.getValue());
+        LocalDateTime end = LocalDateTime.of(ldEnd, ltEnd);
         LocalDateTime createDate = LocalDateTime.now();
         String createdBy = loggedUser.getUserName();
         Timestamp lastUpdated = Timestamp.valueOf(createDate);
         String lastUpdatedBy = loggedUser.getUserName();
-        int customerID = customerCombo.getSelectionModel().getSelectedIndex() +1;
-        int userID = customerCombo.getSelectionModel().getSelectedIndex() + 1;
-        int contactID = contactCombo.getSelectionModel().getSelectedIndex() + 1;
+        int customerID = customerCombo.getSelectionModel().getSelectedItem().getCustomerID();
+        int userID = userCombo.getSelectionModel().getSelectedItem().getUserID();
+        int contactID = contactCombo.getSelectionModel().getSelectedItem().getContactID();
 
         String error = "Exception: ";
         boolean exceptions = false;
@@ -113,6 +148,11 @@ public class AddAppointment implements Initializable {
         stage.show();
     }
 
+    /**
+     * Sends you back to Appointment Screen without saving
+     * @param actionEvent cancel button pressed
+     * @throws IOException
+     */
     public void cancelBtnClicked(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/Appointments.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
