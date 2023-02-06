@@ -18,7 +18,9 @@ import montalvo.planclock.Model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -44,8 +46,10 @@ public class Appointments implements Initializable {
     public Label usernameLabel;
     public RadioButton customerRadio;
     public ToggleGroup viewToggleGrp;
+    public RadioButton viewAllRadio;
     public RadioButton monthRadio;
     public RadioButton weekRadio;
+    public RadioButton reportRadio;
 
     /**
      * Gets Logged-in user from previous screen
@@ -63,6 +67,8 @@ public class Appointments implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointments = AppointmentDAO.getAllAppointments();
+        LocalDateTime now = LocalDateTime.now();
+        boolean appToday = false;
 
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -77,6 +83,17 @@ public class Appointments implements Initializable {
         appointmentsTable.setItems(appointments);
 
         usernameLabel.setText(loggedUser.getUserName());
+
+        for(Appointment app: appointments) {
+            if(app.getStart().isAfter(now) && app.getStart().isBefore(now.plusMinutes(15))) {
+                errorLabel.setText("You have an appointment in the next 15 min!\nAppointment ID: " + app.getAppointmentID() + "\nDate/Time: " + app.getStart());
+                appToday = true;
+            }
+        }
+
+        if(!appToday) {
+            errorLabel.setText("You have no appointments in the next 15 min");
+        }
     }
 
     /**
@@ -168,26 +185,62 @@ public class Appointments implements Initializable {
     }
 
     /**
-     * Sorts the appointments by month
-     * @param actionEvent month radio selected
+     * Sends you to the Reports Screen
+     * @param actionEvent reports radio selected
+     * @throws IOException
      */
-    public void monthRadioClicked(ActionEvent actionEvent) {
-        Comparator<Appointment> comparator = Comparator.comparing(Appointment::getStart, (d1, d2) -> {
-            LocalDateTime date1 = d1;
-            LocalDateTime date2 = d2;
+    public void reportRadioSelected(ActionEvent actionEvent) throws IOException {
+        if(reportRadio.isSelected()) {
+            Reports.getLoggedUser(loggedUser);
 
-            return date2.compareTo(date1);
-        });
-
-        if(monthRadio.isSelected()) {
-            appointments.sort(comparator);
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/View/Reports.fxml"));
+            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load(), 1320, 760);
+            stage.setScene(scene);
+            stage.show();
         }
     }
 
     /**
-     *
+     * Show all the appointments
+     * @param actionEvent viewAll radio selected
+     */
+    public void viewAllClicked(ActionEvent actionEvent) {
+        appointmentsTable.setItems(appointments);
+    }
+
+
+    /**
+     * Show appointments for this month
+     * @param actionEvent month radio selected
+     */
+    public void monthRadioClicked(ActionEvent actionEvent) {
+        Month currentMonth = LocalDateTime.now().getMonth();
+        if(monthRadio.isSelected()) {
+            appointmentsTable.setItems(appointments.filtered(app -> app.getStart().getMonth() == currentMonth));
+        }
+    }
+
+    /**
+     * Show appointments for this week
      * @param actionEvent
      */
     public void weekRadioClicked(ActionEvent actionEvent) {
+        ObservableList<Appointment> currWeekAppointments = FXCollections.observableArrayList();
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+        LocalDate monday = LocalDate.now().minusDays(dayOfWeek - 1);
+        LocalDate sunday = monday.plusDays(6);
+
+        for (Appointment appointment : appointments){
+            LocalDate appStartDate = appointment.getStart().toLocalDate();
+            LocalDate appEndDate = appointment.getEnd().toLocalDate();
+            if (appStartDate.compareTo(monday) * appStartDate.compareTo(sunday) <= 0){
+                currWeekAppointments.add(appointment);
+            } else if (appEndDate.compareTo(monday) * appEndDate.compareTo(sunday) <= 0){
+                currWeekAppointments.add(appointment);
+            }
+        }
+
+        appointmentsTable.setItems(currWeekAppointments);
     }
 }

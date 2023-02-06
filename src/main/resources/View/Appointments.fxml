@@ -24,7 +24,7 @@
         <Button layoutX="150.0" layoutY="554.0" mnemonicParsing="false" onAction="#editAppointment" prefHeight="25.0" prefWidth="52.0" text="Edit" />
         <Button layoutX="1199.0" layoutY="700.0" mnemonicParsing="false" onAction="#exitApp" prefHeight="25.0" prefWidth="52.0" text="Exit" />
         <Button layoutX="215.0" layoutY="554.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="128.0" text="Cancel Appointment" />
-        <Label fx:id="errorLabel" layoutX="370.0" layoutY="518.0" prefHeight="35.0" prefWidth="498.0" />
+        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="471.0" layoutY="537.0" prefHeight="149.0" prefWidth="379.0" textAlignment="JUSTIFY" />
       <Label layoutX="44.0" layoutY="14.0" prefHeight="17.0" prefWidth="134.0" text="PlanClock">
          <font>
             <Font name="System Bold" size="24.0" />
@@ -44,7 +44,9 @@
             <ToggleGroup fx:id="sortToggleGrp" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="weekRadio" layoutX="1190.0" layoutY="122.0" mnemonicParsing="false" onAction="#weekRadioClicked" text="Week" toggleGroup="$sortToggleGrp" />
-      <Label layoutX="1060.0" layoutY="121.0" text="Sort By:" />
+      <Label layoutX="994.0" layoutY="121.0" text="Sort By:" />
+      <RadioButton fx:id="reportRadio" layoutX="516.0" layoutY="121.0" mnemonicParsing="false" onAction="#reportRadioSelected" text="Reports" toggleGroup="$viewToggleGrp" />
+      <RadioButton fx:id="viewAllRadio" layoutX="1057.0" layoutY="121.0" mnemonicParsing="false" onAction="#viewAllClicked" selected="true" text="All" toggleGroup="$sortToggleGrp" />
     </children>
 
 </AnchorPane>

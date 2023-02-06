@@ -16,13 +16,13 @@ public class Appointment {
     private LocalDateTime end;
     private LocalDateTime createDate;
     private String createdBy;
-    private Timestamp lastUpdated;
+    private Timestamp lastUpdate;
     private String lastUpdatedBy;
     private int customerID;
     private int userID;
     private int contactID;
 
-    public Appointment(int appointmentID, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int customerID, int userID, int contactID) {
+    public Appointment(int appointmentID, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         Description = description;
@@ -32,7 +32,7 @@ public class Appointment {
         this.end = end;
         this.createDate = createDate;
         this.createdBy = createdBy;
-        this.lastUpdated = lastUpdated;
+        this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.customerID = customerID;
         this.userID = userID;
@@ -165,15 +165,15 @@ public class Appointment {
     /**
      * @return the lastUpdate
      */
-    public Timestamp getLastUpdated() {
-        return lastUpdated;
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
     }
 
     /**
-     * @param lastUpdated the lastUpdate to set
+     * @param lastUpdate the lastUpdate to set
      */
-    public void setLastUpdated(Timestamp lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     /**

@@ -40,5 +40,6 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="customerRadio" layoutX="383.0" layoutY="121.0" mnemonicParsing="false" selected="true" text="Customers" toggleGroup="$viewToggleGrp" />
+      <RadioButton fx:id="reportRadio" layoutX="515.0" layoutY="121.0" mnemonicParsing="false" onAction="#reportRadioSelected" text="Reports" toggleGroup="$viewToggleGrp" />
    </children>
 </AnchorPane>

@@ -44,6 +44,7 @@ public class Customers implements Initializable {
     public Label usernameLabel;
     public RadioButton appointmentRadio;
     public RadioButton customerRadio;
+    public RadioButton reportRadio;
     public ToggleGroup viewToggleGrp;
 
     /**
@@ -71,7 +72,7 @@ public class Customers implements Initializable {
         customerCreateDate.setCellValueFactory(new PropertyValueFactory<>("CreateDate"));
         customerCreatedBy.setCellValueFactory(new PropertyValueFactory<>("CreatedBy"));
         customerLastUpdate.setCellValueFactory(new PropertyValueFactory<>("LastUpdated"));
-        customerLastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("LastUpdateBy"));
+        customerLastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("LastUpdatedBy"));
         customerDivision.setCellValueFactory(new PropertyValueFactory<>("DivisionID"));
         customerTable.setItems(CustomerDAO.getAllCustomers());
 
@@ -165,6 +166,23 @@ public class Customers implements Initializable {
             Appointments.getLoggedUser(loggedUser);
 
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/Appointments.fxml"));
+            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load(), 1320, 760);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+    /**
+     * Sends you to the Reports Screen
+     * @param actionEvent reports radio selected
+     * @throws IOException
+     */
+    public void reportRadioSelected(ActionEvent actionEvent) throws IOException {
+        if(reportRadio.isSelected()) {
+            Reports.getLoggedUser(loggedUser);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/View/Reports.fxml"));
             Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(fxmlLoader.load(), 1320, 760);
             stage.setScene(scene);

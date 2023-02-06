@@ -70,7 +70,7 @@ public class AppointmentDAO {
             ps.setTimestamp(6, Timestamp.valueOf(appointment.getEnd()));
             ps.setTimestamp(7, Timestamp.valueOf(appointment.getCreateDate()));
             ps.setString(8, appointment.getCreatedBy());
-            ps.setTimestamp(9, appointment.getLastUpdated());
+            ps.setTimestamp(9, appointment.getLastUpdate());
             ps.setString(10, appointment.getLastUpdatedBy());
             ps.setInt(11, appointment.getCustomerID());
             ps.setInt(12, appointment.getUserID());
@@ -102,7 +102,7 @@ public class AppointmentDAO {
             ps.setTimestamp(6, Timestamp.valueOf(appointment.getEnd()));
             ps.setTimestamp(7, Timestamp.valueOf(appointment.getCreateDate()));
             ps.setString(8, appointment.getCreatedBy());
-            ps.setTimestamp(9, appointment.getLastUpdated());
+            ps.setTimestamp(9, appointment.getLastUpdate());
             ps.setString(10, appointment.getLastUpdatedBy());
             ps.setInt(11, appointment.getCustomerID());
             ps.setInt(12, appointment.getUserID());

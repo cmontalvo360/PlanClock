@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,14 +20,21 @@ import montalvo.planclock.Model.User;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
  * This is the controller for the Login Screen
  */
 public class LoginPage implements Initializable {
-    public ComboBox languageCombo;
     private ObservableList<User> userList;
+    private ResourceBundle rb;
+    public Button signinBtn;
+    public Label loginLabel;
+    public Label usernameLabel;
+    public Label passwordLabel;
+    public Button exitBtn;
+    public Label timeZoneLabel;
     public TextField usernameField;
     public TextField passwordField;
     public Label localeLabel;
@@ -39,12 +47,19 @@ public class LoginPage implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<String> lang = FXCollections.observableArrayList("English", "French");
         userList = UserDAO.getAllUsers();
 
         ZoneId zone = ZoneId.systemDefault();
         localeLabel.setText(zone.toString());
-        languageCombo.setItems(lang);
+
+        Locale locale = Locale.getDefault();
+        rb = ResourceBundle.getBundle("ResourceBundle_" + locale.getLanguage());
+        loginLabel.setText(rb.getString("login"));
+        usernameLabel.setText(rb.getString("username"));
+        passwordLabel.setText(rb.getString("password"));
+        timeZoneLabel.setText(rb.getString("timezone"));
+        signinBtn.setText(rb.getString("signin"));
+        exitBtn.setText(rb.getString("exit"));
     }
 
     /**
@@ -69,8 +84,7 @@ public class LoginPage implements Initializable {
                 return;
             }
         }
-
-        errorLabel.setText("Incorrect username or password");
+        errorLabel.setText(rb.getString("error"));
     }
 
     /**
@@ -81,11 +95,4 @@ public class LoginPage implements Initializable {
         Platform.exit();
     }
 
-    /**
-     * Changes the Language of the application
-     * @param actionEvent language selected
-     */
-    public void changeLanguage(ActionEvent actionEvent) {
-
-    }
 }

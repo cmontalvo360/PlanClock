@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="montalvo.planclock.Controller.Reports">
+    <children>
+        <TableView fx:id="appointmentsTable" layoutX="176.0" layoutY="485.0" prefHeight="240.0" prefWidth="919.0">
+            <columns>
+                <TableColumn fx:id="appointmentIDCol" prefWidth="99.0" text="Appointment_ID" />
+                <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="119.0" text="Title" />
+                <TableColumn fx:id="descriptionCol" minWidth="0.0" prefWidth="193.0" text="Description" />
+                <TableColumn fx:id="typeCol" minWidth="0.0" prefWidth="135.0" text="Type" />
+                <TableColumn fx:id="startDateCol" minWidth="0.0" prefWidth="143.0" text="Start Date/Time" />
+                <TableColumn fx:id="endDateCol" minWidth="0.0" prefWidth="152.0" text="End Date/Time" />
+                <TableColumn fx:id="customerIDCol" minWidth="0.0" prefWidth="76.0" text="Customer_ID" />
+            </columns>
+        </TableView>
+        <Button layoutX="1199.0" layoutY="700.0" mnemonicParsing="false" onAction="#exitApp" prefHeight="25.0" prefWidth="52.0" text="Exit" />
+        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="682.0" layoutY="20.0" prefHeight="149.0" prefWidth="379.0" textAlignment="JUSTIFY" />
+      <Label layoutX="44.0" layoutY="14.0" text="PlanClock">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+        <RadioButton fx:id="appointmentRadio" layoutX="224.0" layoutY="121.0" mnemonicParsing="false" onAction="#appointmentRadioSelected" selected="true" text="Appointments">
+            <toggleGroup>
+                <ToggleGroup fx:id="viewToggleGrp" />
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="customerRadio" layoutX="383.0" layoutY="121.0" mnemonicParsing="false" onAction="#customerRadioSelected" text="Customers" toggleGroup="$viewToggleGrp" />
+      <ComboBox fx:id="contactsCombo" layoutX="561.0" layoutY="449.0" onAction="#contactsComboSelection" prefWidth="150.0" promptText="Select a Contact" />
+      <RadioButton layoutX="517.0" layoutY="121.0" mnemonicParsing="false" selected="true" text="Reports" toggleGroup="$viewToggleGrp" />
+      <Label fx:id="usernameLabel" layoutX="1171.0" layoutY="35.0" text="Username">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <TableView fx:id="monthlyTable" layoutX="214.0" layoutY="177.0" prefHeight="248.0" prefWidth="238.0">
+        <columns>
+          <TableColumn fx:id="monthCol" prefWidth="75.0" text="Month" />
+          <TableColumn fx:id="monthlyTypeCol" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="totalCol" prefWidth="75.0" text="Total" />
+        </columns>
+      </TableView>
+      <Label layoutX="635.0" layoutY="242.0" text="Total number of customers:" />
+      <Label layoutX="635.0" layoutY="284.0" text="Total number of appointments:" />
+      <TextField fx:id="totalCustomers" layoutX="815.0" layoutY="238.0" />
+      <TextField fx:id="totalAppointments" layoutX="815.0" layoutY="280.0" />
+    </children>
+
+</AnchorPane>
