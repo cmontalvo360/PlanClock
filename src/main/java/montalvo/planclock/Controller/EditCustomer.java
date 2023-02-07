@@ -158,6 +158,7 @@ public class EditCustomer implements Initializable {
 
     /**
      * Filter the division combo box when a country is selected
+     * Used a lambda expression to filter division list by selected country
      * @param actionEvent
      */
     public void countryFilter(ActionEvent actionEvent) {
@@ -167,6 +168,7 @@ public class EditCustomer implements Initializable {
 
     /**
      * Filter the division combo box if a country is selected
+     * Used a lambda expression to filter division list by selected country
      * @param mouseEvent
      */
     public void divisionFilter(MouseEvent mouseEvent) {

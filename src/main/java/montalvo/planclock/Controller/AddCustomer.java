@@ -75,10 +75,10 @@ public class AddCustomer implements Initializable {
         String postalCode = postalCodeField.getText();
         String phone = phoneNumberField.getText();
         LocalDateTime createDate = LocalDateTime.now();
-        String createdBy = "joe";
+        String createdBy = loggedUser.getUserName();
         Timestamp lastUpdated = Timestamp.valueOf(createDate);
-        String lastUpdatedBy = "joe";
-        int divisionID = divisionCombo.getSelectionModel().getSelectedItem().getDivisionID();
+        String lastUpdatedBy = loggedUser.getUserName();
+        int divisionID = 0;
         String error = "Exception: ";
         boolean exceptions = false;
 
@@ -98,6 +98,10 @@ public class AddCustomer implements Initializable {
             exceptions = true;
             error += "Phone is empty!\n";
         }
+        if(countryCombo.getSelectionModel().getSelectedItem() == null ) {
+            exceptions = true;
+            error += "No Country was chosen!\n";
+        }
         if(divisionCombo.getSelectionModel().getSelectedItem() == null ) {
             exceptions = true;
             error += "No State was chosen!\n";
@@ -107,6 +111,8 @@ public class AddCustomer implements Initializable {
             errorLabel.setText(error);
             return;
         }
+
+        divisionID = divisionCombo.getSelectionModel().getSelectedItem().getDivisionID();
 
         Customer customer = new Customer(id, name, address, postalCode, phone, createDate, createdBy, lastUpdated,
                 lastUpdatedBy, divisionID);
@@ -134,6 +140,7 @@ public class AddCustomer implements Initializable {
 
     /**
      * Filters the Division combo box when a country is chosen
+     * Used a lambda expression to filter division list by currently selected country
      * @param actionEvent
      */
     public void countryFilter(ActionEvent actionEvent) {

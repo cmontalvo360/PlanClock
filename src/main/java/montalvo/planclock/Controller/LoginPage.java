@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -17,8 +16,11 @@ import montalvo.planclock.DAO.UserDAO;
 import montalvo.planclock.Main;
 import montalvo.planclock.Model.User;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -63,7 +65,8 @@ public class LoginPage implements Initializable {
     }
 
     /**
-     * Sends you to Appointment screen is username and password are correct
+     * Sends you to Appointment screen if username and password are correct
+     * Also tracks login activity and stores in an activity log
      * @param actionEvent sign-in button pressed
      * @throws IOException
      */
@@ -75,6 +78,10 @@ public class LoginPage implements Initializable {
             if(user.getUserName().equals(username) && user.getPassword().equals(password)) {
                 Appointments.getLoggedUser(user);
 
+                FileWriter myWriter = new FileWriter("login_activity.txt", true);
+                myWriter.write("user: " + username + ", successfully logged in at: " + Timestamp.valueOf(LocalDateTime.now()) + "\n");
+                myWriter.close();
+
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/View/Appointments.fxml"));
                 Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load(), 1320, 760);
@@ -84,6 +91,10 @@ public class LoginPage implements Initializable {
                 return;
             }
         }
+
+        FileWriter myWriter = new FileWriter("login_activity.txt", true);
+        myWriter.write("user: " + username + ", failed logged in at: " + Timestamp.valueOf(LocalDateTime.now()) + "\n");
+        myWriter.close();
         errorLabel.setText(rb.getString("error"));
     }
 

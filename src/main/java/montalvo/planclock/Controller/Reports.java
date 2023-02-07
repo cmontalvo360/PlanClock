@@ -162,6 +162,7 @@ public class Reports implements Initializable {
 
     /**
      * Loads table with appointment data based on selected contact
+     * Used a lambda expression to filter appointment list by selected contact
      * @param actionEvent
      */
     public void contactsComboSelection(ActionEvent actionEvent) {

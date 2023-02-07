@@ -6,6 +6,7 @@ import montalvo.planclock.DAO.AppointmentDAO;
 import montalvo.planclock.Model.Appointment;
 
 import java.time.DayOfWeek;
+import java.time.ZoneId;
 
 /**
  * This is a Utility class for Appointments
@@ -20,33 +21,34 @@ private static ObservableList<Appointment> appointments = FXCollections.observab
      */
     public static String appChecker(Appointment app) {
         appointments = AppointmentDAO.getAllAppointments();
-
-        int startH = app.getStart().getHour();
-        int endH = app.getEnd().getHour();
-        DayOfWeek startD = app.getStart().getDayOfWeek();
-        DayOfWeek endD = app.getEnd().getDayOfWeek();
+        ZoneId easternZone = ZoneId.of("America/New_York");
+        ZoneId currentZone = ZoneId.systemDefault();
+        int startH = app.getStart().atZone(currentZone).withZoneSameInstant(easternZone).getHour();
+        int endH = app.getEnd().atZone(currentZone).withZoneSameInstant(easternZone).getHour();
+        DayOfWeek startD = app.getStart().atZone(currentZone).withZoneSameInstant(easternZone).getDayOfWeek();
+        DayOfWeek endD = app.getEnd().atZone(currentZone).withZoneSameInstant(easternZone).getDayOfWeek();
         String error = "";
 
 
         if( app.getStart().isAfter(app.getEnd()) ) {
-            error += "appointment start must happen before appointment end\n";
+            error += "Appointment start must happen before appointment end\n";
         }
 
         // checking if within business hours
         if(startD == DayOfWeek.SATURDAY || startD == DayOfWeek.SUNDAY) {
-            error += "outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
+            error += "-Outside of business hours,\n-8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
             return error;
         }
         if(endD == DayOfWeek.SATURDAY || endD == DayOfWeek.SUNDAY) {
-            error += "outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
+            error += "Outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
             return error;
         }
         if(startH < 8 || startH > 22) {
-            error += "outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
+            error += "Outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
             return error;
         }
         if(endH < 8 || endH > 22) {
-            error += "outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
+            error += "Outside of business hours,\n 8:00 a.m. to 10:00 p.m. EST, including weekends!\n";
             return error;
         }
 
@@ -57,15 +59,15 @@ private static ObservableList<Appointment> appointments = FXCollections.observab
             }
 
             if(( app.getStart().isEqual(app2.getStart()) || app.getStart().isAfter(app2.getStart()) ) && app.getStart().isBefore(app2.getEnd())) {
-                error += "appointment is overlapping with another appointment";
+                error += "Appointment is overlapping with another appointment";
                 return error;
             }
             if(( app.getEnd().isEqual(app2.getStart()) || app.getEnd().isAfter(app2.getStart()) ) && app.getEnd().isBefore(app2.getEnd())) {
-                error += "appointment is overlapping with another appointment";
+                error += "Appointment is overlapping with another appointment";
                 return error;
             }
             if(app.getStart().isBefore(app2.getStart()) && app.getEnd().isAfter(app2.getEnd())) {
-                error += "appointment is overlapping with another appointment";
+                error += "Appointment is overlapping with another appointment";
                 return error;
             }
 

@@ -212,6 +212,7 @@ public class Appointments implements Initializable {
 
     /**
      * Show appointments for this month
+     * Used a lambda expression to filter list by current month
      * @param actionEvent month radio selected
      */
     public void monthRadioClicked(ActionEvent actionEvent) {

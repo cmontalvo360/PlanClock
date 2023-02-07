@@ -16,6 +16,7 @@ import montalvo.planclock.Model.Appointment;
 import montalvo.planclock.Model.Contact;
 import montalvo.planclock.Model.Customer;
 import montalvo.planclock.Model.User;
+import montalvo.planclock.Util.AppointmentUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -86,19 +87,13 @@ public class AddAppointment implements Initializable {
         String description = descriptionField.getText();
         String location = locationField.getText();
         String type = typeField.getText();
-        LocalDate ldStart = startDatePicker.getValue();
-        LocalTime ltStart = LocalTime.of((int)startHourSpinner.getValue(), (int)startMinuteSpinner.getValue());
-        LocalDateTime start = LocalDateTime.of(ldStart, ltStart);
-        LocalDate ldEnd = endDatePicker.getValue();
-        LocalTime ltEnd = LocalTime.of((int)endHourSpinner.getValue(), (int)endMinuteSpinner.getValue());
-        LocalDateTime end = LocalDateTime.of(ldEnd, ltEnd);
         LocalDateTime createDate = LocalDateTime.now();
         String createdBy = loggedUser.getUserName();
         Timestamp lastUpdated = Timestamp.valueOf(createDate);
         String lastUpdatedBy = loggedUser.getUserName();
-        int customerID = customerCombo.getSelectionModel().getSelectedItem().getCustomerID();
-        int userID = userCombo.getSelectionModel().getSelectedItem().getUserID();
-        int contactID = contactCombo.getSelectionModel().getSelectedItem().getContactID();
+        int customerID = 0;
+        int userID = 0;
+        int contactID = 0;
 
         String error = "Exception: ";
         boolean exceptions = false;
@@ -131,15 +126,39 @@ public class AddAppointment implements Initializable {
             exceptions = true;
             error += "No contact was chosen!\n";
         }
-
+        if(startDatePicker.getValue() == null) {
+            exceptions = true;
+            error += "No start date was chosen!\n";
+        }
+        if(endDatePicker.getValue() == null) {
+            exceptions = true;
+            error += "No end date was chosen!\n";
+        }
         if(exceptions) {
             errorLabel.setText(error);
             return;
         }
 
+        LocalDate ldStart = startDatePicker.getValue();
+        LocalTime ltStart = LocalTime.of((int)startHourSpinner.getValue(), (int)startMinuteSpinner.getValue());
+        LocalDateTime start = LocalDateTime.of(ldStart, ltStart);
+        LocalDate ldEnd = endDatePicker.getValue();
+        LocalTime ltEnd = LocalTime.of((int)endHourSpinner.getValue(), (int)endMinuteSpinner.getValue());
+        LocalDateTime end = LocalDateTime.of(ldEnd, ltEnd);
+        customerID = customerCombo.getSelectionModel().getSelectedItem().getCustomerID();
+        userID = userCombo.getSelectionModel().getSelectedItem().getUserID();
+        contactID = contactCombo.getSelectionModel().getSelectedItem().getContactID();
+
+
         Appointment app = new Appointment(id, title, description, location, type, start, end, createDate, createdBy, lastUpdated,
                 lastUpdatedBy, customerID, userID, contactID);
-        AppointmentDAO.addAppointment(app);
+        String appError = AppointmentUtil.appChecker(app);
+        if(appError == "") {
+            AppointmentDAO.addAppointment(app);
+        } else {
+            errorLabel.setText("Error: " + appError);
+            return;
+        }
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/Appointments.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
