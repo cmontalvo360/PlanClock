@@ -130,7 +130,21 @@ public class Customers implements Initializable {
 
         for(Appointment app : appointments) {
             if(app.getCustomerID() == customer.getCustomerID()) {
-                errorLabel.setText("Appointments for " + customer.getCustomerName() + " need to be canceled before deletion.");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Customer Deletion");
+                alert.setHeaderText("Delete with appointments");
+                alert.setContentText("You have appointments scheduled. Would you like to continue to Delete anyway?");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if(result.get() == ButtonType.OK) {
+                    for(Appointment app1 : appointments) {
+                        if (app1.getCustomerID() == customer.getCustomerID()) {
+                            AppointmentDAO.deleteAppointment(app1.getAppointmentID());
+                        }
+                    }
+                    CustomerDAO.deleteCustomer(customer.getCustomerID());
+                    customerTable.getItems().remove(customer);
+                }
                 return;
             }
         }

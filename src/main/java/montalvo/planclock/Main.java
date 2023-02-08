@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * This is the main class. This is where my Program starts.
+ * Lambda expression can be found on the AddCustomer and EditCustomer Controller for filter methods.
  */
 public class Main extends Application {
     /**

@@ -139,7 +139,6 @@ public class AddCustomer implements Initializable {
     }
 
     /**
-     * Filters the Division combo box when a country is chosen
      * Used a lambda expression to filter division list by currently selected country
      * @param actionEvent
      */

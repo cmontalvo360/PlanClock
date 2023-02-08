@@ -54,7 +54,7 @@ private static ObservableList<Appointment> appointments = FXCollections.observab
 
         // checking for overlapping appointments
         for(Appointment app2: appointments) {
-            if(app.getCustomerID() == app2.getCustomerID()) {
+            if(app.getAppointmentID() == app2.getAppointmentID()) {
                 continue;
             }
 
