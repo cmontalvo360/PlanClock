@@ -41,5 +41,6 @@
       </RadioButton>
       <RadioButton fx:id="customerRadio" layoutX="383.0" layoutY="121.0" mnemonicParsing="false" selected="true" text="Customers" toggleGroup="$viewToggleGrp" />
       <RadioButton fx:id="reportRadio" layoutX="515.0" layoutY="121.0" mnemonicParsing="false" onAction="#reportRadioSelected" text="Reports" toggleGroup="$viewToggleGrp" />
+      <TextField fx:id="customerSearchBox" layoutX="738.0" layoutY="117.0" onKeyTyped="#custKeyTypedSearch" prefHeight="25.0" prefWidth="215.0" promptText="Search by Name or ID" />
    </children>
 </AnchorPane>

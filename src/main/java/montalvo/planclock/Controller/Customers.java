@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import montalvo.planclock.DAO.AppointmentDAO;
 import montalvo.planclock.DAO.CustomerDAO;
@@ -20,6 +21,7 @@ import montalvo.planclock.Model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -28,7 +30,8 @@ import java.util.ResourceBundle;
  */
 public class Customers implements Initializable {
     private static User loggedUser = null;
-    private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    private String searchQuery = "";
+    private static ObservableList<Customer> customers = FXCollections.observableArrayList();
     public TableView<Customer> customerTable;
     public TableColumn<Customer, Integer> customerID;
     public TableColumn customerName;
@@ -46,6 +49,7 @@ public class Customers implements Initializable {
     public RadioButton customerRadio;
     public RadioButton reportRadio;
     public ToggleGroup viewToggleGrp;
+    public TextField customerSearchBox;
 
     /**
      * Get logged-in user from previous screen
@@ -62,7 +66,7 @@ public class Customers implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        appointments = AppointmentDAO.getAllAppointments();
+        customers = CustomerDAO.getAllCustomers();
 
         customerID.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         customerName.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
@@ -74,7 +78,7 @@ public class Customers implements Initializable {
         customerLastUpdate.setCellValueFactory(new PropertyValueFactory<>("LastUpdated"));
         customerLastUpdateBy.setCellValueFactory(new PropertyValueFactory<>("LastUpdatedBy"));
         customerDivision.setCellValueFactory(new PropertyValueFactory<>("DivisionID"));
-        customerTable.setItems(CustomerDAO.getAllCustomers());
+        customerTable.setItems(customers);
 
         usernameLabel.setText(loggedUser.getUserName());
     }
@@ -122,6 +126,7 @@ public class Customers implements Initializable {
      */
     public void deleteCustomer(ActionEvent actionEvent) {
         Customer customer = customerTable.getSelectionModel().getSelectedItem();
+        ObservableList<Appointment> appointments = AppointmentDAO.getAllAppointments();
 
         if(customer == null) {
             errorLabel.setText("Please select a Customer to Delete");
@@ -201,6 +206,34 @@ public class Customers implements Initializable {
             Scene scene = new Scene(fxmlLoader.load(), 1320, 760);
             stage.setScene(scene);
             stage.show();
+        }
+    }
+
+    /**
+     * Starts searching for customer when typing and displays on tableview
+     * @param keyEvent keypress
+     */
+    public void custKeyTypedSearch(KeyEvent keyEvent) {
+        searchQuery = customerSearchBox.getText();
+        errorLabel.setText("");
+
+        if(searchQuery.equals("")) {
+            customerTable.setItems(customers);
+        } else {
+            if(searchQuery.matches("[0-9]+")) {
+                int id = Integer.parseInt(searchQuery);
+                customerTable.setItems(customers.filtered(customer -> customer.getCustomerID() == id));
+            } else {
+                customerTable.setItems(customers.filtered(customer -> customer.getCustomerName().contains(searchQuery)));
+            }
+
+            if(customerTable.getItems().size() == 0) {
+                errorLabel.setText("No customers were found!");
+            }
+        }
+
+        if(customerTable.getItems().size() < 2 && !searchQuery.equals("")) {
+            customerTable.getSelectionModel().select(0);
         }
     }
 }
