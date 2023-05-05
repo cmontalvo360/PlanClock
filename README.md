@@ -15,7 +15,7 @@ The additional report I ran was to count the total number of appointments schedu
 
 ---
 
-This is the login screen
+This is the login screen.
 ![login screen image](./images/login.png)
 
 This is the main screen where appointments customers and reports can be viewed dependent on selected radio button
