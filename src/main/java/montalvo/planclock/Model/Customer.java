@@ -16,7 +16,7 @@ public class Customer {
     private String createdBy;
     private Timestamp lastUpdated;
     private String lastUpdatedBy;
-    private int DivisionID;
+    private int divisionID;
 
     public Customer(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) {
         this.customerID = customerID;
@@ -28,7 +28,7 @@ public class Customer {
         this.createdBy = createdBy;
         this.lastUpdated = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
-        this.DivisionID = divisionID;
+        this.divisionID = divisionID;
     }
 
     /**
@@ -160,14 +160,14 @@ public class Customer {
      * @return the divisionID
      */
     public int getDivisionID() {
-        return DivisionID;
+        return divisionID;
     }
 
     /**
      * @param divisionID the divisionID to set
      */
     public void setDivisionID(int divisionID) {
-        DivisionID = divisionID;
+        this.divisionID = divisionID;
     }
 
     /**
