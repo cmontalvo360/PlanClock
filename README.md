@@ -12,12 +12,14 @@ To run the program you go to the "Main" class and start it from there. When star
 After you login you will be able to view all the appointments and customers.
 
 The additional report I ran was to count the total number of appointments scheduled and total number of customers in the database.
+
 ---
+
 This is the login screen
 ![login screen image](./images/login.png)
 
-This is the main screen where screen where parts can be added if the fields meet certain requirments. The Modify Screen is the exact same except it's populated with data of the part you selected.
+This is the main screen where appointments customers and reports can be viewed dependent on selected radio button
 ![main screen image](./images/appointments.png)
 
-This is the customer screen where customers can be added if the fields meet certain requirments. You can also add or remove associated parts related to the product. The Modify Screen is the exact same except it's populated with data of the product you selected.
-![add product screen image](./images/customers.png)
+This is the add appointment screen where appointments can be added if the fields meet certain requirements. The Edit Screen is the exact same except it's populated with data of the appointment you selected.
+![add appointment screen image](./images/addAppointment.png)
